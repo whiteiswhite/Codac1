@@ -1,0 +1,35 @@
+.userpass{
+    width:50%;
+}
+
+.name{
+    max-width: 26%;
+    left : 25%
+}
+
+.pass{
+    max-width: 26%;
+    left: 25%
+}
+
+.mail{
+
+    max-width: 52%;
+    left: 25%;
+}
+
+.signin{
+    margin-top:2%;
+    background: #3e6ab1;
+    border: #3e6ab1;
+}
+
+.success{
+    color: limegreen;
+    font-size: 20px;
+}
+
+.error{
+    color: red;
+    font-size: 20px;
+}
