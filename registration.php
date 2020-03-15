@@ -102,9 +102,9 @@ if(isset($_POST['submit'])){
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="">
-    <link rel="stylesheet" href="bootstrap.css">
-    <link rel="stylesheet" href="coding.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" medie="all" href="css/coding.css">
+
 </head>
 <header>
     <h1>Registration Page</h1>
@@ -134,9 +134,15 @@ if(isset($_POST['submit'])){
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email@exemple.exemple" required>
                 <button type="submit" class="btn btn-primary signin" name="submit">Sign in</button>
+                <a href="login.php" class="already float-right">Already registered?</a>
+
                 <p class="error"><?php echo $message; ?></p>
+
+
                     </div>
+
                 </div>
+
             </form>
         </div>
     </body>

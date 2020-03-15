@@ -9,7 +9,7 @@
 
 .pass{
     max-width: 26%;
-    left: 25%
+    left:25%
 }
 
 .mail{
@@ -32,4 +32,9 @@
 .error{
     color: red;
     font-size: 20px;
+}
+
+
+.already {
+margin-top: 5px;
 }

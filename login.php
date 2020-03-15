@@ -1,102 +1,100 @@
 <?php
 
-class log {
-public $username;
-public $password;
-public $email;
-public $BDD;
-
-public function __construct($username, $password, $email)
+class log
 {
-$this->setUsername($username);
-$this->setPassword($password);
-$this->setEmail($email);
-$this->connect_db();
+    public $username;
+    public $password;
+    public $BDD;
+
+    public function __construct($username, $password)
+    {
+        $this->setUsername($username);
+        $this->setPassword($password);
+        $this->connect_db();
+    }
+
+    public function connect_db()
+    {
+        try {
+            $DB_PDO = new PDO('mysql:host=' . 'localhost' . ';port=' . '3306' . ';dbname=' . 'pool_php_rush', 'root', '');
+            $this->setBDD($DB_PDO);
+        } catch (PDOException $e) {
+            echo "PDO ERROR: " . $e->getMessage() . ' storage in ' . ERROR_LOG_FILE . "\n";
+            error_log($e->getMessage() . "\n", 3, ERROR_LOG_FILE);
+        }
+    }
+
+    public function check_exists()
+    {
+        $res = $this->getBdd()->prepare('SELECT * FROM users where username = :username OR email = :email');
+        $res->execute(array(
+            'username' => $this->getUsername(),
+            'email' => $this->getUsername()));
+        if ($res->rowCount() >= 1) {
+            return $this->check_ids();
+        } else {
+            return $message = "<p class='error'>Username/Email doesn't exists</p>";
+        }
+    }
+
+    public function check_ids()
+    {
+        $res = $this->getBdd()->prepare('SELECT * FROM users where username = :username');
+        $res->execute(array(
+            'username' => $this->getUsername()));
+        $resultat = $res->fetch();
+        $isPasswordCorrect = password_verify($_POST['password'], $resultat['password']);
+        if ($isPasswordCorrect){
+            session_start();
+            $_SESSION['username'] = $this->getUsername();
+            header('location: index.php');
+            return $message = "<p class='success'>Vous êtes connecté !</p>";
+        } else {
+            return $message = "<p class='error'>Password doesn't match</p>";
+        }
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function getBdd()
+    {
+        return $this->BDD;
+    }
+
+    public function setBdd($BDD)
+    {
+        $this->BDD = $BDD;
+    }
 }
 
-public function connect_db(){
-try {
-$DB_PDO = new PDO('mysql:host=' . 'localhost' . ';port=' . '3306' . ';dbname=' . 'pool_php_rush', 'root', '');
-$this->setBDD($DB_PDO);
-} catch (PDOException $e) {
-echo "PDO ERROR: " . $e->getMessage() . ' storage in ' . ERROR_LOG_FILE . "\n";
-error_log($e->getMessage() . "\n", 3, ERROR_LOG_FILE);
-}
-}
+    $message = NULL;
 
-public function check_exists(){
-$res = $this->getBdd()->prepare('SELECT * FROM users where username = :username              OR email = :email');
-$res->execute(array(
-'username' => $this->getUsername(),
-'email' => $this->getEmail()));
-if($res->rowCount() >= 1){
-return $username = "<p class='error'> Username or Email already taken </p>";
-} else {
-return $this->create_user();
-}
-}
-
-public function create_user(){
-$password_hache = password_hash($this->getPassword(),PASSWORD_DEFAULT);
-$req = $this->getBdd()->prepare('INSERT INTO users(username, password, email) VALUES(:username, :password, :email)');
-$req->execute(array(
-'username' => $this->getUsername(),
-'password' => $password_hache,
-'email' => $this->getEmail()));
-header('location: login.php');
-}
-
-public function getUsername()
-{
-return $this->username;
-}
-
-public function setUsername($username)
-{
-$this->username = $username;
-}
-
-public function getEmail()
-{
-return $this->email;
-}
-
-public function setEmail($email)
-{
-$this->email = $email;
-}
-
-public function getPassword()
-{
-return $this->password;
-}
-
-public function setPassword($password)
-{
-$this->password = $password;
-}
-
-public function getBdd()
-{
-return $this->BDD;
-}
-
-public function setBdd($BDD)
-{
-$this->BDD = $BDD;
-}
-}
-
-$message = NULL;
-
-if(isset($_POST['submit'])){
-if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email'])){
-$user = new log($_POST['username'],$_POST['password'],$_POST['email']);
-$message = $user->check_exists();
-} else {
-$message = "<p class='error'>Complete all fields</p>";
-}
-}
+    if(isset($_POST['submit'])){
+    if(isset($_POST['username']) && isset($_POST['password'])){
+    $user = new log($_POST['username'],$_POST['password']);
+    $message = $user->check_exists();
+    } else {
+    $message = "<p class='error'>Complete all fields</p>";
+    }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +105,7 @@ $message = "<p class='error'>Complete all fields</p>";
     <link rel="stylesheet" href="coding.css">
 </head>
 <header>
-    <h1>Registration Page</h1>
+    <h1>Login Page</h1>
     <nav>
         <ul class="menu">
         </ul>
@@ -119,7 +117,7 @@ $message = "<p class='error'>Complete all fields</p>";
             <img class="img-fluid mx-auto d-block" src="CODING_LOGO.png" alt="Logo epitech">
         </div>
         <div>
-    <form action="registration.php" method="post">
+    <form action="login.php" method="post">
         <div class="form-row d-flex">
             <div class="form-group col-md-6 name">
                 <label for="username">Username / Email</label>
@@ -133,6 +131,7 @@ $message = "<p class='error'>Complete all fields</p>";
             <div class="form-group col-md-12 mail">
 
                 <button type="submit" class="btn btn-primary signin" name="submit">Login</button>
+                <p class="error"><?php echo $message; ?></p>
 </div>
 </div>
 </form>
