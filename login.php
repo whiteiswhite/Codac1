@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class log
 {
@@ -87,6 +88,11 @@ class log
 
     $message = NULL;
 
+if(isset($_SESSION['user_created'])) {
+    $message = "<p class='success'>User created !</p>";
+}
+
+
     if(isset($_POST['submit'])){
     if(isset($_POST['username']) && isset($_POST['password'])){
     $user = new log($_POST['username'],$_POST['password']);
@@ -101,8 +107,8 @@ class log
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="">
-    <link rel="stylesheet" href="bootstrap.css">
-    <link rel="stylesheet" href="coding.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/coding.css">
 </head>
 <header>
     <h1>Login Page</h1>
@@ -131,7 +137,7 @@ class log
             <div class="form-group col-md-12 mail">
 
                 <button type="submit" class="btn btn-primary signin" name="submit">Login</button>
-                <p class="error"><?php echo $message; ?></p>
+                <p><?php echo $message; ?></p>
 </div>
 </div>
 </form>

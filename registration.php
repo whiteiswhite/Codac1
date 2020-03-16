@@ -43,6 +43,8 @@ class log {
             'username' => $this->getUsername(),
             'password' => $password_hache,
             'email' => $this->getEmail()));
+        session_start();
+        $_SESSION['user_created'] = 'user_created';
         header('location: login.php');
     }
 
@@ -135,9 +137,7 @@ if(isset($_POST['submit'])){
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email@exemple.exemple" required>
                 <button type="submit" class="btn btn-primary signin" name="submit">Sign in</button>
                 <a href="login.php" class="already float-right">Already registered?</a>
-
                 <p class="error"><?php echo $message; ?></p>
-
 
                     </div>
 

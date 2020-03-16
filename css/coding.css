@@ -22,11 +22,31 @@
     margin-top:2%;
     background: #3e6ab1;
     border: #3e6ab1;
+
+}
+
+
+.logout:hover{
+    color:white;
 }
 
 .logout{
-    color: white;
+    color:white;
 }
+
+.logoutbutton{
+    margin-left: ;
+    position: absolute;
+    top: 95%;
+}
+
+.signin:hover{
+    text-decoration: none;
+    color:white;
+    background: #3e6ab1;
+    border: #3e6ab1;
+}
+
 
 .success{
     color: limegreen;
@@ -41,4 +61,14 @@
 
 .already {
 margin-top: 5px;
+}
+
+.input-group {
+
+    width: 120px;
+    float: left;
+}
+
+.formform{
+    display:block;
 }
