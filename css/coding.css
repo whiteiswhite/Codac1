@@ -22,8 +22,37 @@
     margin-top:2%;
     background: #3e6ab1;
     border: #3e6ab1;
+<<<<<<< HEAD
 }
 
+=======
+
+}
+
+
+.logout:hover{
+    color:white;
+}
+
+.logout{
+    color:white;
+}
+
+.logoutbutton{
+    margin-left: ;
+    position: absolute;
+    top: 95%;
+}
+
+.signin:hover{
+    text-decoration: none;
+    color:white;
+    background: #3e6ab1;
+    border: #3e6ab1;
+}
+
+
+>>>>>>> Gael
 .success{
     color: limegreen;
     font-size: 20px;
@@ -37,4 +66,17 @@
 
 .already {
 margin-top: 5px;
+<<<<<<< HEAD
+=======
+}
+
+.input-group {
+
+    width: 120px;
+    float: left;
+}
+
+.formform{
+    display:block;
+>>>>>>> Gael
 }
